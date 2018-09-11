@@ -27,7 +27,7 @@
 # below may wind up stomping over this value.
 set(build_shared_libs "${BUILD_SHARED_LIBS}")
 
-# Core USD Package Requirements 
+# Core USD Package Requirements
 # ----------------------------------------------
 
 # Threads.  Save the libraries needed in PXR_THREAD_LIBS;  we may modify
@@ -43,28 +43,31 @@ if(PXR_ENABLE_PYTHON_SUPPORT)
     find_package(PythonLibs 2.7 REQUIRED)
 
     # --Boost
-    find_package(Boost
-        COMPONENTS
-            filesystem
-            program_options
-            python
-            system
-        REQUIRED
-    )
+    if(NOT PXR_CUSTOM_BOOST)
+        find_package(Boost
+            COMPONENTS
+                program_options
+                python
+                system
+            REQUIRED
+        )
+    endif()
 
     # --Jinja2
     find_package(Jinja2)
 else()
     find_package(PythonInterp 2.7 REQUIRED)
- 
+
     # --Boost
-    find_package(Boost
-        COMPONENTS
-            filesystem
-            program_options
-            system
-        REQUIRED
-    )
+
+    if(NOT PXR_CUSTOM_BOOST)
+        find_package(Boost
+            COMPONENTS
+                program_options
+                system
+            REQUIRED
+        )
+    endif()
 endif()
 
 # --TBB

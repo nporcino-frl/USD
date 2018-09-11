@@ -44,6 +44,18 @@ option(PXR_ENABLE_OSL_SUPPORT "Enable OSL (OpenShadingLanguage) based components
 option(PXR_ENABLE_PTEX_SUPPORT "Enable Ptex support" ON)
 option(PXR_MAYA_TBB_BUG_WORKAROUND "Turn on linker flag (-Wl,-Bsymbolic) to work around a Maya TBB bug" OFF)
 option(PXR_ENABLE_NAMESPACES "Enable C++ namespaces." ON)
+option(PXR_CUSTOM_BOOST "Manually set Boost variables for boost" OFF)
+
+
+if (PXR_CUSTOM_BOOST)
+    message(INFO, "Boost_USE_STATIC_LIBS: Boost will be linked dynamically: ${Boost_USE_STATIC_LIBS}")
+    message(INFO, "Boost_INCLUDE_DIRS: Boost include directories: ${Boost_INCLUDE_DIRS}")
+    message(INFO, "Boost_SYSTEM_LIBRARY: Boost system library: ${Boost_SYSTEM_LIBRARY}")
+    message(INFO, "Boost_PROGRAM_OPTIONS_LIBRARY: Boost program_options library: ${Boost_PROGRAM_OPTIONS_LIBRARY}")
+    if(PXR_ENABLE_PYTHON_SUPPORT)
+        message(INFO, "Boost_PYTHON_LIBRARY: Boost python library: ${Boost_PYTHON_LIBRARY}")
+    endif()
+endif()
 
 # Precompiled headers are a win on Windows, not on gcc.
 set(pxr_enable_pch "OFF")
@@ -151,17 +163,17 @@ endif()
 
 if (${PXR_BUILD_KATANA_PLUGIN})
     if (NOT ${PXR_ENABLE_PYTHON_SUPPORT})
-        message(STATUS 
+        message(STATUS
             "Setting PXR_BUILD_KATANA_PLUGIN=OFF because "
             "PXR_ENABLE_PYTHON_SUPPORT=OFF")
         set(PXR_BUILD_KATANA_PLUGIN "OFF" CACHE BOOL "" FORCE)
     elseif (NOT ${PXR_ENABLE_GL_SUPPORT})
-        message(STATUS 
+        message(STATUS
             "Setting PXR_BUILD_KATANA_PLUGIN=OFF because "
             "PXR_ENABLE_GL_SUPPORT=OFF")
         set(PXR_BUILD_KATANA_PLUGIN "OFF" CACHE BOOL "" FORCE)
     elseif (NOT ${PXR_BUILD_USD_IMAGING})
-        message(STATUS 
+        message(STATUS
             "Setting PXR_BUILD_KATANA_PLUGIN=OFF because "
             "PXR_BUILD_USD_IMAGING=OFF")
         set(PXR_BUILD_KATANA_PLUGIN "OFF" CACHE BOOL "" FORCE)
@@ -170,17 +182,17 @@ endif()
 
 if (${PXR_BUILD_MAYA_PLUGIN})
     if (NOT ${PXR_ENABLE_PYTHON_SUPPORT})
-        message(STATUS 
+        message(STATUS
             "Setting PXR_BUILD_MAYA_PLUGIN=OFF because "
             "PXR_ENABLE_PYTHON_SUPPORT=OFF")
         set(PXR_BUILD_MAYA_PLUGIN "OFF" CACHE BOOL "" FORCE)
     elseif (NOT ${PXR_ENABLE_GL_SUPPORT})
-        message(STATUS 
+        message(STATUS
             "Setting PXR_BUILD_MAYA_PLUGIN=OFF because "
             "PXR_ENABLE_GL_SUPPORT=OFF")
         set(PXR_BUILD_MAYA_PLUGIN "OFF" CACHE BOOL "" FORCE)
     elseif (NOT ${PXR_BUILD_USD_IMAGING})
-        message(STATUS 
+        message(STATUS
             "Setting PXR_BUILD_MAYA_PLUGIN=OFF because "
             "PXR_BUILD_USD_IMAGING=OFF")
         set(PXR_BUILD_MAYA_PLUGIN "OFF" CACHE BOOL "" FORCE)
@@ -189,7 +201,7 @@ endif()
 
 if (${PXR_BUILD_HOUDINI_PLUGIN})
     if (NOT ${PXR_ENABLE_PYTHON_SUPPORT})
-        message(STATUS 
+        message(STATUS
             "Setting PXR_BUILD_HOUDINI_PLUGIN=OFF because "
             "PXR_ENABLE_PYTHON_SUPPORT=OFF")
         set(PXR_BUILD_HOUDINI_PLUGIN "OFF" CACHE BOOL "" FORCE)
