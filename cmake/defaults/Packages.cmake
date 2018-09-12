@@ -43,7 +43,10 @@ if(PXR_ENABLE_PYTHON_SUPPORT)
     find_package(PythonLibs 2.7 REQUIRED)
 
     # --Boost
-    if(NOT PXR_CUSTOM_BOOST)
+    if(PXR_CUSTOM_BOOST)
+        # On Windows, this will suppress the automatic linking of libraries
+        add_definitions(-DBOOST_ALL_NO_LIB)
+    else()
         find_package(Boost
             COMPONENTS
                 program_options
@@ -60,7 +63,10 @@ else()
 
     # --Boost
 
-    if(NOT PXR_CUSTOM_BOOST)
+    if(PXR_CUSTOM_BOOST)
+        # On Windows, this will suppress the automatic linking of libraries
+        add_definitions(-DBOOST_ALL_NO_LIB)
+    else()
         find_package(Boost
             COMPONENTS
                 program_options
